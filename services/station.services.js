@@ -1,5 +1,6 @@
 const { Station } = require("../models");
 const { Op } = require("sequelize");
+const AppError = require("../utils/appError");
 
 const createStation = async ({ name, address, province }) => {
   const station = await Station.create({ name, address, province });
@@ -21,7 +22,7 @@ const findFilteredStations = async (name) => {
 const findStationById = async (id) => {
   const station = await Station.findOne({ where: { id } });
   if (!station) {
-    throw new Error("Station not found");
+    throw new AppError("Station not found", 404);
   }
   return station;
 };

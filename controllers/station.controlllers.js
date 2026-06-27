@@ -1,73 +1,55 @@
 const stationService = require("../services/station.services");
+const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
 
-const createStation = async (req, res) => {
-  try {
-    const { name, address, province } = req.body;
-    if (!name || !address || !province) {
-      return res.status(400).json({ message: "Missing required fields" });
-    }
-
-    const station = await stationService.createStation({
-      name,
-      address,
-      province,
-    });
-
-    res.status(201).json(station);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+const createStation = catchAsync(async (req, res, next) => {
+  const { name, address, province } = req.body;
+  if (!name || !address || !province) {
+    throw new AppError("Missing required fields", 400);
   }
-};
 
-const getAllStations = async (req, res) => {
+  const station = await stationService.createStation({
+    name,
+    address,
+    province,
+  });
+
+  res.status(201).json(station);
+});
+
+const getAllStations = catchAsync(async (req, res, next) => {
   const { name } = req.query;
-  try {
-    if (!name) {
-      const stations = await stationService.findAllStations();
-      res.status(200).json(stations);
-    } else {
-      const stations = await stationService.findFilteredStations(name);
-      res.status(200).json(stations);
-    }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  if (!name) {
+    const stations = await stationService.findAllStations();
+    res.status(200).json(stations);
+  } else {
+    const stations = await stationService.findFilteredStations(name);
+    res.status(200).json(stations);
   }
-};
+});
 
-const getStationById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const station = await stationService.findStationById(id);
-    res.status(200).json(station);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+const getStationById = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const station = await stationService.findStationById(id);
+  res.status(200).json(station);
+});
 
-const updateStation = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name, address, province } = req.body;
-    const station = await stationService.updateStation(id, {
-      name,
-      address,
-      province,
-    });
-    res.status(200).json(station);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+const updateStation = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const { name, address, province } = req.body;
+  const station = await stationService.updateStation(id, {
+    name,
+    address,
+    province,
+  });
+  res.status(200).json(station);
+});
 
-const deleteStation = async (req, res) => {
-  try {
-    const { id } = req.params;
-    await stationService.deleteStation(id);
-    res.status(200).send("Deleted successfully!");
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+const deleteStation = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  await stationService.deleteStation(id);
+  res.status(200).send("Deleted successfully!");
+});
 
 module.exports = {
   createStation,

@@ -1,7 +1,6 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
+const AppError = require("../utils/appError");
 module.exports = (sequelize, DataTypes) => {
   class Station extends Model {
     /**
@@ -13,13 +12,44 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  Station.init({
-    name: DataTypes.STRING,
-    address: DataTypes.STRING,
-    province: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'Station',
-  });
+  Station.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+          len: [3, 50],
+        },
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          checkLen(value) {
+            if (value.length >= 5 && value.length <= 100) {
+              return true;
+            } else {
+              throw new AppError(
+                "Address must be at least 5 and at most 100 characters long",
+                400,
+              );
+            }
+          },
+        },
+      },
+      province: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          isIn: [["Hà Nội", "Hồ Chí Minh", "Đà Nẵng"]],
+        },
+      },
+    },
+    {
+      sequelize,
+      modelName: "Station",
+    },
+  );
   return Station;
 };
