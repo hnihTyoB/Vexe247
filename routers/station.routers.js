@@ -1,7 +1,17 @@
 const express = require("express");
-const { createStation } = require("../controllers/station.controlllers");
+const {
+  createStation,
+  getAllStations,
+  getStationById,
+  updateStation,
+  deleteStation,
+} = require("../controllers/station.controlllers");
 const stationRouter = express.Router();
 
 stationRouter.post("/", createStation);
+stationRouter.get("/", getAllStations);
+stationRouter.get("/:id", getStationById);
+stationRouter.put("/:id", updateStation);
+stationRouter.delete("/:id", deleteStation);
 
 module.exports = stationRouter;
