@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const { sequelize } = require("./models");
+const rootRouter = require("./routers/index");
 const app = express();
 
 const port = 3000;
@@ -9,6 +10,8 @@ const port = 3000;
 app.use(express.json());
 // cài static file
 app.use(express.static(path.join(__dirname, "./public")));
+// dùng routers
+app.use("/api/v1", rootRouter);
 
 app.listen(port, async () => {
   console.log(`Server is running on http://localhost:${port}`);
