@@ -1,4 +1,5 @@
 const { Station } = require("../models");
+const { Op } = require("sequelize");
 
 const createStation = async ({ name, address, province }) => {
   const station = await Station.create({ name, address, province });
@@ -7,6 +8,13 @@ const createStation = async ({ name, address, province }) => {
 
 const findAllStations = async () => {
   const stations = await Station.findAll();
+  return stations;
+};
+
+const findFilteredStations = async (name) => {
+  const stations = await Station.findAll({
+    where: { name: { [Op.like]: `%${name}%` } },
+  });
   return stations;
 };
 
@@ -35,6 +43,7 @@ const deleteStation = async (id) => {
 module.exports = {
   createStation,
   findAllStations,
+  findFilteredStations,
   findStationById,
   updateStation,
   deleteStation,

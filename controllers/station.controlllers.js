@@ -20,9 +20,15 @@ const createStation = async (req, res) => {
 };
 
 const getAllStations = async (req, res) => {
+  const { name } = req.query;
   try {
-    const stations = await stationService.findAllStations();
-    res.status(200).json(stations);
+    if (!name) {
+      const stations = await stationService.findAllStations();
+      res.status(200).json(stations);
+    } else {
+      const stations = await stationService.findFilteredStations(name);
+      res.status(200).json(stations);
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
