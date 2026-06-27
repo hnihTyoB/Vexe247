@@ -1,0 +1,21 @@
+const express = require("express");
+const path = require("path");
+const { sequelize } = require("./models");
+const app = express();
+
+const port = 3000;
+
+// cài ứng dụng sử dụng kiểu json
+app.use(express.json());
+// cài static file
+app.use(express.static(path.join(__dirname, "./public")));
+
+app.listen(port, async () => {
+  console.log(`Server is running on http://localhost:${port}`);
+  try {
+    await sequelize.authenticate();
+    console.log("Database connected successfully");
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
+});
