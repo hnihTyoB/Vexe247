@@ -5,7 +5,7 @@ const {
   getStationById,
   updateStation,
   deleteStation,
-} = require("../controllers/station.controllers");
+} = require("../controllers/station.controller");
 const stationRouter = express.Router();
 
 stationRouter.post("/", createStation);

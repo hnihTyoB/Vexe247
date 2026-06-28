@@ -1,4 +1,4 @@
-const stationService = require("../services/station.services");
+const stationService = require("../services/station.service");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 
