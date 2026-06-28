@@ -9,6 +9,7 @@
   "author": "thinher",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "express": "^5.2.1",
     "mysql2": "^3.22.5",
     "sequelize": "^6.37.8"
