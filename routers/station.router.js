@@ -7,11 +7,28 @@ const {
   deleteStation,
 } = require("../controllers/station.controller");
 const stationRouter = express.Router();
+const authenticate = require("../middlewares/authenticate.middleware");
+const authorize = require("../middlewares/authorize.middleware");
 
-stationRouter.post("/", createStation);
+stationRouter.post(
+  "/",
+  authenticate,
+  authorize("ADMIN", "SUPER_ADMIN"),
+  createStation,
+);
 stationRouter.get("/", getAllStations);
 stationRouter.get("/:id", getStationById);
-stationRouter.put("/:id", updateStation);
-stationRouter.delete("/:id", deleteStation);
+stationRouter.put(
+  "/:id",
+  authenticate,
+  authorize("ADMIN", "SUPER_ADMIN"),
+  updateStation,
+);
+stationRouter.delete(
+  "/:id",
+  authenticate,
+  authorize("ADMIN", "SUPER_ADMIN"),
+  deleteStation,
+);
 
 module.exports = stationRouter;

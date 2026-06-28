@@ -1,4 +1,3 @@
-require("dotenv").config();
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const userService = require("../services/user.service");
