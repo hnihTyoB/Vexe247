@@ -6,9 +6,9 @@ const {
   updateStation,
   deleteStation,
 } = require("../controllers/station.controller");
+const authenticate = require("../middlewares/auth/authenticate");
+const authorize = require("../middlewares/auth/authorize");
 const stationRouter = express.Router();
-const authenticate = require("../middlewares/authenticate.middleware");
-const authorize = require("../middlewares/authorize.middleware");
 
 stationRouter.post(
   "/",
