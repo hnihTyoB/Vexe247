@@ -48,7 +48,9 @@ const updateStation = catchAsync(async (req, res, next) => {
 const deleteStation = catchAsync(async (req, res, next) => {
   const { id } = req.params;
   await stationService.deleteStation(id);
-  res.status(200).send("Deleted successfully!");
+  res.status(200).json({
+    message: "Deleted successfully!",
+  });
 });
 
 module.exports = {

@@ -18,6 +18,18 @@ const registerUser = catchAsync(async (req, res, next) => {
   res.status(201).json(user);
 });
 
+const loginUser = catchAsync(async (req, res, next) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    throw new AppError("Missing required fields", 400);
+  }
+  const user = await userService.loginUser({ email, password });
+  res.status(200).json({
+    message: "Login success",
+  });
+});
+
 module.exports = {
   registerUser,
+  loginUser,
 };
