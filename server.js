@@ -1,11 +1,10 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const { sequelize } = require("./models");
 const rootRouter = require("./routers/index");
 const globalErrorHandler = require("./middlewares/error.middleware");
 const app = express();
-
-const port = 3000;
 
 // cài ứng dụng sử dụng kiểu json
 app.use(express.json());
@@ -16,8 +15,8 @@ app.use("/api/v1", rootRouter);
 // Đăng ký middleware xử lý lỗi toàn cục
 app.use(globalErrorHandler);
 
-app.listen(port, async () => {
-  console.log(`Server is running on http://localhost:${port}`);
+app.listen(process.env.PORT, async () => {
+  console.log(`Server is running on http://localhost:${process.env.PORT}`);
   try {
     await sequelize.authenticate();
     console.log("Database connected successfully");
